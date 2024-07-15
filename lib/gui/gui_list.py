@@ -68,12 +68,12 @@ def pypidoc():#打开主页(Home-page)
     #在pip管理目录中，项目的元信息所在文件夹一般为项目本名，而非调用名称，即便二者大多数情况下一样
     namepath=''
     for fp in os.listdir(pkgs_path):
-        if nowlib.replace('-','_') in fp and fp.endswith('dist-info'):
+        if nowlib.replace('-','_').lower() in fp.lower() and fp.endswith('dist-info'):
             namepath=fp
             break
     with open(pkgs_path+f'/{namepath}/METADATA',encoding='utf-8') as f:
         r=f.read()
-    m=re.match('.*?Home-page: (.*?)[\r\n]',r,re.S|re.M|re.I).group(1)
+    m=re.match('.*?(Home-page|Homepage|Source|Source Code|Sources)[,:] (.*?)[\r\n]',r,re.S|re.M|re.I).group(2)
     webbrowser.open(m)
 
 def uninstall():#卸载选中项目

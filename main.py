@@ -6,7 +6,7 @@ Copyright 2024 Smart-Space<smart-space@qq.com>|<tsan-zane@outlook.com>
 
 第三方依赖：tinui(GUI), setuptools(not used now)
 """
-from gui import root, xpage
+from gui import root
 from pipmode import *
 from lib.gui import gui_list, gui_install, gui_search
 

@@ -31,6 +31,16 @@ def uninstall(e):
 def update(e):
     #直接调用gui_install
     gui_install.checkupdate(book)
+def refind(e):
+    #刷新
+    p1x.clean()
+    book.showpage(p1)#786(785)x545
+    p1x.environment({'sel_libs':sel_libs,'opendoc':opendoc,'pypidoc':pypidoc,'update':update,
+        'uninstall':uninstall,'refind':refind})
+    p1x.loadxml(open(path+r'\pages\p1_libs.xml',encoding='utf-8').read())
+    p1_listbox,p1_listboxfunc,_=p1x.tags['lsbox']#获取列表框以及函数接口
+    gui_list.initialize(p1_listbox,p1_listboxfunc)
+    gui_list.start()
 #库列表↑
 
 #升级&安装↓
@@ -75,7 +85,8 @@ book=mainx.tags['ntbook'][3]
 p1=book.addpage('库列表',cancancel=False)
 p1x=book.getuis(p1)[1]
 book.showpage(p1)#786(785)x545
-p1x.environment({'sel_libs':sel_libs,'opendoc':opendoc,'pypidoc':pypidoc,'update':update,'uninstall':uninstall})
+p1x.environment({'sel_libs':sel_libs,'opendoc':opendoc,'pypidoc':pypidoc,'update':update,
+    'uninstall':uninstall,'refind':refind})
 p1x.loadxml(open(path+r'\pages\p1_libs.xml',encoding='utf-8').read())
 p1_listbox,p1_listboxfunc,_=p1x.tags['lsbox']#获取列表框以及函数接口
 gui_list.initialize(p1_listbox,p1_listboxfunc)
@@ -103,7 +114,7 @@ p4_button=p4x.tags['button'][-2]
 p4_textbox,p4_textboxfunc,_=p4x.tags['textbox']
 gui_uninstall.initialize(p4_entry,p4_entryfunc,p4_button,p4_textbox,p4_textboxfunc)
 
-xpage=(p1,)
+
 
 if __name__=="__main__":
     root.mainloop()
