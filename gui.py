@@ -5,6 +5,7 @@
 """
 import tkinter as tk
 import os
+import platform
 from TinUI import BasicTinUI, TinUIXml
 
 from lib.gui import gui_list, gui_install, gui_search, gui_uninstall
@@ -61,6 +62,14 @@ def uninstall2(e):
 
 # 创建主窗口
 root = tk.Tk()
+
+if platform.system()=='Windows':
+    import ctypes
+    try:
+        ctpyes.windll.shcore.SetProcessDpiAwareness(1)
+    except:
+        ctypes.windll.user32.SetProcessDPIAware()
+
 root.title("Pip Integration Platform")
 # 设置窗口大小和不可伸缩属性
 root.geometry("800x700")
