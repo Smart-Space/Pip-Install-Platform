@@ -6,7 +6,7 @@
 import tkinter as tk
 import os
 import platform
-from TinUI import BasicTinUI, TinUIXml
+from tinui import BasicTinUI, TinUIXml
 
 from lib.gui import gui_list, gui_install, gui_search, gui_uninstall
 

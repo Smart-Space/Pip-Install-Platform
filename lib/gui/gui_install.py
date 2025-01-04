@@ -4,7 +4,7 @@
 """
 from tkinter import Event
 
-from TinUI import BasicTinUI
+from tinui import BasicTinUI
 import pipmode
 
 update=False#是否升级，用于调整pip参数
