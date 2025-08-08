@@ -7,10 +7,6 @@ from tkinter import ttk, Text, BooleanVar
 import pipmode
 
 update=None#是否升级，用于调整pip参数
-update_page=False#升级检测页面是否打开
-update_page_id=None#升级检测页面对应到TinUI.notebook的页面id
-book=None#标签页控件
-ui=None#标签页中对应的BasicTinUI
 
 def initialize(frame:ttk.Frame):
     #初始化
@@ -35,11 +31,6 @@ def initialize(frame:ttk.Frame):
     textbox['yscrollcommand']=scroll.set
     textbox.bind('<<NewMsg>>',_add_msg)
     textbox.bind('<<End>>',_end)
-
-
-def update_switch():
-    #是否升级
-    ...
 
 def install():
     #开始下载（执行pip命令，不判断正误）
@@ -73,41 +64,70 @@ def _end(e):#操作结束，按钮恢复
     textbox.insert('end','====================\n\n')
     textbox.config(state='disabled')
 
+
+update_selected=None#升级选中的库
+update_name=None#升级选中的库名
+def checkupdate_initialize(frame:ttk.Frame):
+    #初始化升级检测页面
+    global page2, upbutton, listbox
+    page2=frame
+    topframe=ttk.Frame(frame)
+    topframe.pack(anchor='n',pady=5)
+    ttk.Button(topframe,text='更新选中的库',command=update_selected).pack(side='left',padx=5)
+    ttk.Separator(topframe,orient='vertical').pack(side='left',padx=5,fill='y')
+    upbutton=ttk.Button(topframe,text='检测更新',command=checkupdate)
+    upbutton.pack(side='left',padx=5)
+    listframe=ttk.Frame(frame)
+    listframe.pack(fill='both',expand=True)
+    listbox=ttk.Treeview(listframe,columns=('name','version','update'),show='headings',selectmode='browse')
+    listbox.heading('name',text='名称')
+    listbox.heading('version',text='版本')
+    listbox.heading('update',text='更新')
+    listbox.column('name',anchor='center')
+    listbox.column('version',anchor='center')
+    listbox.column('update',anchor='center')
+    listbox.pack(fill='both',side='left',expand=True)
+    scroller=ttk.Scrollbar(listframe,orient='vertical',command=listbox.yview)
+    scroller.pack(side='right',fill='y')
+    listbox['yscrollcommand']=scroller.set
+    listbox.bind('<<TreeviewSelect>>',_select)
+    page2.bind("<<CheckEnd>>", __checkshow)
+
+def _select(e):
+    #选中项目
+    global update_selected, update_name
+    update_selected=listbox.selection()
+    if not update_selected:
+        return
+    update_selected=update_selected[0]
+    update_name=listbox.item(update_selected)['values'][0]
+
+def update_selected():
+    #升级选中的库
+    global update_name, update_selected
+    if not update_name:
+        return
+    update.set(True)
+    page2.event_generate('<<DoUpdate>>')
+    entry.delete(0,'end')
+    entry.insert(0,update_name)
+    install()
+    listbox.delete(update_selected)
+    update_selected=None
+    update_name=None
+
 def __checkupdate(pkgs):
     #接受pip_install.py的更新检测回调
     global check_show_pkgs
     check_show_pkgs=pkgs
-    page.event_generate('<<CheckEnd>>')
-def checkupdate(_book):
+    page2.event_generate('<<CheckEnd>>')
+def checkupdate():
     #检测所有可更新项目
-    #在新临时标签页中展示，但是用户不可关闭
-    #book为主程序标签控件
-    global update_page, update_page_id, book, ui
-    if update_page==False:#尚未创建该标签页
-        book=_book
-        update_page=True
-        update_page_id=book.addpage('检测更新',cancancel=False)
-        ui=book.getuis(update_page_id)[0]
-        ui.add_paragraph((5,5),text='检测更新中……')
-        ui.add_waitbar3((5,30),width=750)[-1]
-    else:
-        ui.delete('all')
-        ui.add_paragraph((5,5),text='检测更新中……')
-        ui.add_waitbar3((5,30),width=750)[-1]
-    page.bind('<<CheckEnd>>',__checkshow)
-    book.showpage(update_page_id)
+    upbutton.config(text='检测中...',state='disabled')
     pipmode.check_update(__checkupdate)
 def __checkshow(e):
     #显示检测更新的结果
-    ui.delete('all')
-    num=len(check_show_pkgs)
-    listitem=ui.add_listview((5,5),width=760,height=530,linew=40,num=num)[2]
-    for i in range(0,num):
-        listitem[i][0].add_paragraph((5,20),text=check_show_pkgs[i],anchor='w')
-        listitem[i][0].add_button2((650,20),text='更新',anchor='w',command=lambda event,name=check_show_pkgs[i]:go2update(name))
-def go2update(name):#根据选择的名字去install主界面升级
-    book.showpage(pageid)
-    inputbox.delete(0,'end')
-    inputbox.insert(0,name)
-    check.on()
-    install()
+    upbutton.config(text='检测更新',state='normal')
+    listbox.delete(*listbox.get_children())
+    for pkg in check_show_pkgs:
+        listbox.insert('','end',values=(pkg['name'],pkg['version'],pkg['latest_version']))

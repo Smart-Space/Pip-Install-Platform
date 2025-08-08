@@ -3,7 +3,7 @@
 获取安装的第三方库
 """
 from importlib import metadata
-import threading
+from lib.operate.pip_threads import pipthreads
 
 def __get_list(func):
     packages = []
@@ -18,6 +18,4 @@ def __get_list(func):
     func(packages)
 
 def get_list(func):
-    thread = threading.Thread(target=__get_list,args=(func,))
-    thread.daemon = True
-    thread.start()
+    pipthreads.submit(__get_list,func)

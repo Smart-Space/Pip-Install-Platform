@@ -1,1 +1,1 @@
-nuitka --mingw64 --standalone --output-dir="E:\PyApp\Pip Integration Platform" --include-data-file=pages/*.xml=pages/ --windows-console-mode=disable --show-progress --plugin-enable=tk-inter .\main.py
+nuitka --msvc=latest --standalone --output-dir="E:\PyApp\Pip Integration Platform" --windows-console-mode=attach --show-progress --plugin-enable=tk-inter .\main.py

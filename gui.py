@@ -5,43 +5,8 @@
 """
 from tkinter import Tk
 from tkinter import ttk
-import os
 
-from lib.gui import gui_list, gui_install, gui_uninstall
-
-path=os.getcwd()
-
-
-#库列表
-selectlib=None
-def sel_libs(lib):#选定库
-    global selectlib
-    selectlib=gui_list.sel_libs(lib)
-def opendoc(e):
-    gui_list.opendoc()
-def pypidoc(e):
-    gui_list.pypidoc()
-def update(e):
-    #直接调用gui_install
-    gui_install.checkupdate(book)
-def refind(e):
-    #刷新
-    p1x.clean()
-    book.showpage(p1)#786(785)x545
-    p1x.environment({'sel_libs':sel_libs,'opendoc':opendoc,'pypidoc':pypidoc,'update':update,
-        'uninstall':uninstall,'refind':refind})
-    p1x.loadxml(open(path+r'\pages\p1_libs.xml',encoding='utf-8').read())
-    p1_listbox,p1_listboxfunc,_=p1x.tags['lsbox']#获取列表框以及函数接口
-    gui_list.initialize(p1_listbox,p1_listboxfunc)
-    gui_list.start()
-
-#升级&安装
-def update_switch(check):
-    #是否升级
-    gui_install.update_switch(check)
-def install(e):
-    #开始下载
-    ...
+from lib.gui import gui_list, gui_install, gui_uninstall, gui_search
 
 
 # 创建主窗口
@@ -63,7 +28,7 @@ p1.pack(fill='both', expand=True)
 book.add(p1, text="库列表")
 gui_list.initialize(p1)
 p1.bind("<<UninstallEvent>>", lambda e: book.select(p3))
-# p1.bind("<<CheckUpdateEvent>>", lambda e: book.select(p4))
+p1.bind("<<CheckUpdateEvent>>", lambda e: (book.select(p4), gui_install.checkupdate()))
 
 p2=ttk.Frame(book)
 p2.pack(fill='both', expand=True)
@@ -75,20 +40,11 @@ p3.pack(fill='both', expand=True)
 book.add(p3, text="卸载")
 gui_uninstall.initialize(p3)
 
-#
-#
-#升级&安装
-# p2=book.addpage('升级&安装',cancancel=False)
-# p2x=book.getuis(p2)[1]
-# p2x.environment({'update_switch':update_switch,'install':install})
-# p2x.loadxml(open(path+r'\pages\p2_install.xml',encoding='utf-8').read())
-# p2_entry,p2_entryfunc,_=p2x.tags['entry']
-# p2_checkbutton=p2x.tags['check'][-2]
-# p2_button=p2x.tags['button'][-2]
-# p2_textbox,p2_textboxfunc,_=p2x.tags['textbox']
-# gui_install.initialize(p2_entry,p2_entryfunc,p2_checkbutton,p2_button,p2_textbox,p2_textboxfunc,p2)
-#
-
+p4=ttk.Frame(book)
+p4.pack(fill='both', expand=True)
+book.add(p4, text="检查更新")
+gui_install.checkupdate_initialize(p4)
+p4.bind("<<DoUpdate>>", lambda e: book.select(p2))
 
 if __name__=="__main__":
     root.mainloop()

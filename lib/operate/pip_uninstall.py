@@ -3,10 +3,12 @@
 卸载第三方库
 """
 import subprocess
-import threading
+from sys import executable
+from lib.operate.pip_threads import pipthreads
+
 
 def __uninstall(name,msgfunc,endfunc):
-    cmd="pip uninstall -y "+name
+    cmd=f"{executable} -m pip uninstall -y {name}"
     msgfunc(cmd+'\n')
     result=subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,shell=True)
     for line in iter(result.stdout.readline, b''):
@@ -14,6 +16,4 @@ def __uninstall(name,msgfunc,endfunc):
     endfunc()
 
 def uninstall(name,msgfunc,endfunc):
-    thread=threading.Thread(target=__uninstall,args=(name,msgfunc,endfunc,))
-    thread.daemon=True
-    thread.start()
+    pipthreads.submit(__uninstall,name,msgfunc,endfunc)

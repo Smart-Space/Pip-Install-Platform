@@ -3,7 +3,6 @@
 负责卸载第三方库
 """
 from tkinter import ttk, Text
-from os import pipe
 import pipmode
 
 def initialize(frame:ttk.Frame):#初始化

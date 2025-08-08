@@ -21,7 +21,7 @@ def initialize(frame:ttk.Frame):#初始化
     listbox.heading('name',text='名称')
     listbox.heading('version',text='版本')
     listbox.heading('description',text='描述')
-    listbox.column('name',width=220,anchor='center')
+    listbox.column('name',width=200,anchor='center')
     listbox.column('version',width=100,anchor='center')
     listbox.column('description',width=450,anchor='center')
     listbox.pack(side='left',fill='both',expand=True)
@@ -33,8 +33,9 @@ def initialize(frame:ttk.Frame):#初始化
     ttk.Button(bottomframe,text='打开文件位置',command=opendoc).pack(side='left',padx=5)
     ttk.Button(bottomframe,text='打开项目页面',command=pypidoc).pack(side='left',padx=5)
     ttk.Button(bottomframe,text='卸载',command=__uninstall).pack(side='left',padx=5)
+    ttk.Separator(bottomframe,orient='vertical').pack(side='left',fill='y',padx=5)
     ttk.Button(bottomframe,text='重新检索',command=start).pack(side='left',padx=5)
-    ttk.Button(bottomframe,text='检查全部可更新项目').pack(side='left',padx=5)
+    ttk.Button(bottomframe,text='检查全部可更新项目',command=__check_update).pack(side='left',padx=5)
     bottomframe.pack(side='bottom',anchor='n',pady=5)
     listbox.bind('<<TreeviewSelect>>',sel_libs)#绑定选中事件
     listbox.bind('<Double-Button-1>',opendoc)#绑定双击事件
@@ -62,12 +63,14 @@ def sel_libs(e):#选定库
     selected=listbox.selection()
     if not selected:
         return
-    nowlib=listbox.item(selected[0])['values'][0]
+    selected=selected[0]
+    nowlib=listbox.item(selected)['values'][0]
 
 def opendoc(e=None):#打开库在资源管理器中的位置
     if not nowlib:#未选定
         return
     meta=metadata.distribution(nowlib)
+    # 先尝试从top_level.txt获取路径
     toplevel=meta.read_text('top_level.txt')
     if toplevel:
         path=toplevel.split('\n')[0]
@@ -75,7 +78,7 @@ def opendoc(e=None):#打开库在资源管理器中的位置
         fils=meta.read_text('RECORD').split('\n')
         path=None
         for i in fils:
-            if '.dist-info' not in i:
+            if '.dist-info' not in i and '..' not in i:
                 path=i.split('/',1)[0]
                 break
     if path:
@@ -94,10 +97,14 @@ def pypidoc():#打开主页(Home-page)
         webbrowser.open(url)
 
 def __uninstall():#卸载选中项目
+    global nowlib, selected
     if nowlib==None:
         return
     page.event_generate('<<UninstallEvent>>')
     uninstall(nowlib)
+    listbox.delete(selected)
+    nowlib=None
+    selected=None
 
 def __check_update():#检查全部可更新项目
     page.event_generate('<<CheckUpdateEvent>>')

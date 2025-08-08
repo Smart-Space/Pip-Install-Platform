@@ -2,9 +2,9 @@
 Pip Integration Platform (PIP)
 python第三方包管理平台
 
-Copyright 2024 Smart-Space<smart-space@qq.com>|<tsan-zane@outlook.com>
+Copyright 2024-Present Smart-Space<smart-space@qq.com>|<tsan-zane@outlook.com>
 
-第三方依赖：tinui(GUI), setuptools(not used now)
+第三方依赖：sv-ttk
 """
 import sv_ttk
 from tkinter import ttk

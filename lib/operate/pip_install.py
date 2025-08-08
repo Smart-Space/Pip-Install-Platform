@@ -3,13 +3,15 @@
 升级和安装的第三方库
 """
 import subprocess
-import threading
+from json import loads
+from sys import executable
+from lib.operate.pip_threads import pipthreads
 
 def __install(update,name,msgfunc,endfunc):
     if update:#已安装，升级
-        cmd="pip install --upgrade "+name
+        cmd=f"{executable} -m pip install --upgrade {name}"
     else:#安装
-        cmd="pip install "+name
+        cmd=f"{executable} -m pip install {name}"
     msgfunc(cmd+'\n')
     result=subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,shell=True)
     for line in iter(result.stdout.readline, b''):
@@ -17,17 +19,11 @@ def __install(update,name,msgfunc,endfunc):
     endfunc()
 
 def install(update,name,msgfunc,endfunc):
-    thread = threading.Thread(target=__install,args=(update,name,msgfunc,endfunc,))
-    thread.daemon=True
-    thread.start()
+    pipthreads.submit(__install,update,name,msgfunc,endfunc)
 
 def __update(func):
-    result=subprocess.run('pip list --outdated',stdout=subprocess.PIPE,shell=True)
-    packages=[]
-    for s in result.stdout.decode('utf-8').split("\n")[2:-1]:
-        packages.append(s.split(" ")[0])
+    result=subprocess.run(f'{executable} -m pip list --outdated --format=json',stdout=subprocess.PIPE,shell=True)
+    packages=loads(result.stdout.decode('utf-8'))
     func(packages)
 def update(func):
-    thread=threading.Thread(target=__update,args=(func,))
-    thread.setDaemon(True)
-    thread.start()
+    pipthreads.submit(__update,func)
