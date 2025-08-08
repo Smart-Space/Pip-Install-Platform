@@ -15,5 +15,5 @@ def __uninstall(name,msgfunc,endfunc):
 
 def uninstall(name,msgfunc,endfunc):
     thread=threading.Thread(target=__uninstall,args=(name,msgfunc,endfunc,))
-    thread.setDaemon(True)
+    thread.daemon=True
     thread.start()

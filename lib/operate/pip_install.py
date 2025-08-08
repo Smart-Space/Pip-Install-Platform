@@ -18,7 +18,7 @@ def __install(update,name,msgfunc,endfunc):
 
 def install(update,name,msgfunc,endfunc):
     thread = threading.Thread(target=__install,args=(update,name,msgfunc,endfunc,))
-    thread.setDaemon(True)
+    thread.daemon=True
     thread.start()
 
 def __update(func):

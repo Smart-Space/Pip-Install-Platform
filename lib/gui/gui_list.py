@@ -2,81 +2,102 @@
 /lib/gui/gui_list.py
 负责对安装的第三封库进行检索并呈现
 """
+from tkinter import ttk
+from importlib import metadata
 import webbrowser
 import os
-import re
 
+from lib.gui.gui_uninstall import uninstall
 import pipmode
 
 nowlib=None#当前选定的库名称
-#pkgs_path=None#第三方库安装路径，通过tinui位置确认
+selected=None#当前选定的库
 
-def initialize(_listbox,_listboxfunc):#初始化
-    global listbox, listboxfunc, waitframe, waitframefunc
-    listbox=_listbox
-    listboxfunc=_listboxfunc
-    listbox.update()
+def initialize(frame:ttk.Frame):#初始化
+    global listbox, page
+    page=frame
+    topframe=ttk.Frame(frame)
+    listbox=ttk.Treeview(topframe,columns=('name','version','description'),show='headings',selectmode='browse')
+    listbox.heading('name',text='名称')
+    listbox.heading('version',text='版本')
+    listbox.heading('description',text='描述')
+    listbox.column('name',width=220,anchor='center')
+    listbox.column('version',width=100,anchor='center')
+    listbox.column('description',width=450,anchor='center')
+    listbox.pack(side='left',fill='both',expand=True)
+    scroller=ttk.Scrollbar(topframe,orient='vertical',command=listbox.yview)
+    listbox.configure(yscrollcommand=scroller.set)
+    scroller.pack(side='right',fill='y')
+    topframe.pack(side='top',fill='both',expand=True)
+    bottomframe=ttk.Frame(frame)
+    ttk.Button(bottomframe,text='打开文件位置',command=opendoc).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text='打开项目页面',command=pypidoc).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text='卸载',command=__uninstall).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text='重新检索',command=start).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text='检查全部可更新项目').pack(side='left',padx=5)
+    bottomframe.pack(side='bottom',anchor='n',pady=5)
+    listbox.bind('<<TreeviewSelect>>',sel_libs)#绑定选中事件
+    listbox.bind('<Double-Button-1>',opendoc)#绑定双击事件
     listbox.bind('<<LoadedEvent>>',load_ui)#绑定子线程触发的加载事件
-    width=listbox.winfo_width()
-    height=listbox.winfo_height()
-    waitframe,_,_,waitframefunc,_=listbox.add_waitframe((0,0),width,height)
-    waitframefunc.start()
+    start()#启动子线程
 
 def start():#接受main.py调控，运行启动
-    text=waitframe.add_paragraph((5,5),text='第三方库搜索中...')
     pipmode.get_list(initial_list)
 
-def initial_list(_pkgs:list,_path):#从/lib/operate/pip_list.py子线程回调函数
+def initial_list(_pkgs:list):#从/lib/operate/pip_list.py子线程回调函数
     global pkgs, pkgs_path
     pkgs=_pkgs
-    pkgs_path=_path
     listbox.event_generate('<<LoadedEvent>>')#触发加载事件
 
 def load_ui(e):
-    waitframefunc.end()
-    for i in pkgs:#由pip_list.py通过initial_list()传递的_pkgs列表
-        listboxfunc.add(i)
-    listboxfunc.delete(0)
+    global nowlib
+    nowlib=None
+    listbox.delete(*listbox.get_children())
+    for i in pkgs:
+        listbox.insert('','end',values=(i['name'],i['version'],i['summary']))
 
 #以下为接受/gui.py调用方法
-def sel_libs(lib):#选定库
-    global nowlib
-    nowlib=lib.split('\t')[0]
-    return nowlib
-
-def opendoc():#打开库在资源管理器中的位置
-    if nowlib==None:#未选定
+def sel_libs(e):#选定库
+    global nowlib, selected
+    selected=listbox.selection()
+    if not selected:
         return
-    #在pip管理目录中，项目的元信息所在文件夹一般为项目本名，而非调用名称，即便二者大多数情况下一样
-    namepath=''
-    for fp in os.listdir(pkgs_path):
-        if nowlib.replace('-','_') in fp and fp.endswith('dist-info'):
-            namepath=fp
-            break
-    with open(pkgs_path+f'/{namepath}/top_level.txt',encoding='utf-8') as f:
-        #从top_level.txt获取库主体文件夹的名称
-        name=f.read()[:-1]
-    if os.path.isfile(pkgs_path+'/'+name+'.py'):
-        os.startfile(pkgs_path)
-    else:
-        os.startfile(pkgs_path+'/'+name)
+    nowlib=listbox.item(selected[0])['values'][0]
 
+def opendoc(e=None):#打开库在资源管理器中的位置
+    if not nowlib:#未选定
+        return
+    meta=metadata.distribution(nowlib)
+    toplevel=meta.read_text('top_level.txt')
+    if toplevel:
+        path=toplevel.split('\n')[0]
+    else:
+        fils=meta.read_text('RECORD').split('\n')
+        path=None
+        for i in fils:
+            if '.dist-info' not in i:
+                path=i.split('/',1)[0]
+                break
+    if path:
+        namepath=meta.locate_file('').__str__()+'\\'+path
+    else:
+        namepath=meta.locate_file('').__str__()+'\\'+nowlib+'.py'
+    if not os.path.exists(namepath):
+        return
+    os.startfile(namepath)
 
 def pypidoc():#打开主页(Home-page)
     if nowlib==None:#未选定
         return
-    #在pip管理目录中，项目的元信息所在文件夹一般为项目本名，而非调用名称，即便二者大多数情况下一样
-    namepath=''
-    for fp in os.listdir(pkgs_path):
-        if nowlib.replace('-','_').lower() in fp.lower() and fp.endswith('dist-info'):
-            namepath=fp
-            break
-    with open(pkgs_path+f'/{namepath}/METADATA',encoding='utf-8') as f:
-        r=f.read()
-    m=re.match('.*?(Home-page|Homepage|Source|Source Code|Sources)[,:] (.*?)[\r\n]',r,re.S|re.M|re.I).group(2)
-    webbrowser.open(m)
+    url=metadata.metadata(nowlib).get('Home-page', None)
+    if url:
+        webbrowser.open(url)
 
-def uninstall():#卸载选中项目
+def __uninstall():#卸载选中项目
     if nowlib==None:
         return
-    ...
+    page.event_generate('<<UninstallEvent>>')
+    uninstall(nowlib)
+
+def __check_update():#检查全部可更新项目
+    page.event_generate('<<CheckUpdateEvent>>')

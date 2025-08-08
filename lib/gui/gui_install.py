@@ -2,44 +2,54 @@
 /lib/gui/gui_install.py
 负责安装和升级第三方库
 """
-from tkinter import Event
+from tkinter import ttk, Text, BooleanVar
 
-from tinui import BasicTinUI
 import pipmode
 
-update=False#是否升级，用于调整pip参数
+update=None#是否升级，用于调整pip参数
 update_page=False#升级检测页面是否打开
 update_page_id=None#升级检测页面对应到TinUI.notebook的页面id
 book=None#标签页控件
 ui=None#标签页中对应的BasicTinUI
 
-def initialize(_inputbox,_entry,_check,_button,_textbox,_textboxfunc,_pageid):
+def initialize(frame:ttk.Frame):
     #初始化
-    global inputbox, entry, check, button, textbox, textboxfunc, pageid
-    inputbox=_inputbox#entry所代表的实体控件
-    entry=_entry
-    check=_check
-    button=_button
-    textbox=_textbox
-    textboxfunc=_textboxfunc
-    pageid=_pageid
-    textbox.config(state='disabled')
+    global entry, textbox, check, button, page, update
+    update=BooleanVar()
+    page=frame
+    topframe=ttk.Frame(frame)
+    topframe.pack(anchor='n',pady=5)
+    ttk.Label(topframe,text='第三方库名：').pack(side='left',padx=5)
+    entry=ttk.Entry(topframe,width=30)
+    entry.pack(side='left',padx=5)
+    check=ttk.Checkbutton(topframe,text='升级',variable=update)
+    check.pack(side='left',padx=5)
+    button=ttk.Button(topframe,text='安装',command=install)
+    button.pack(side='left',padx=5)
+    textframe=ttk.Frame(frame)
+    textframe.pack(fill='both',expand=True)
+    textbox=Text(textframe,font=('Consolas',12),highlightthickness=1,wrap='word',state='disabled',relief='flat')
+    textbox.pack(fill='both',side='left',expand=True)
+    scroll=ttk.Scrollbar(textframe,orient='vertical',command=textbox.yview)
+    scroll.pack(side='right',fill='y')
+    textbox['yscrollcommand']=scroll.set
     textbox.bind('<<NewMsg>>',_add_msg)
     textbox.bind('<<End>>',_end)
 
 
-def update_switch(check):
+def update_switch():
     #是否升级
-    global update
-    update=check
+    ...
 
 def install():
     #开始下载（执行pip命令，不判断正误）
     name=entry.get()
-    entry.disable()
-    check.disable()
-    button.disable()
-    pipmode.install(update,name,add_msg,end)
+    if name=='':
+        return
+    entry.configure(state='disabled')
+    check.configure(state='disabled')
+    button.configure(state='disabled')
+    pipmode.install(update.get(),name,add_msg,end)
 
 def add_msg(_msg:str):
     #接受pip_install的信息
@@ -56,9 +66,9 @@ def _add_msg(e):
 def end():#接受pip_install停止操作
     textbox.event_generate('<<End>>')
 def _end(e):#操作结束，按钮恢复
-    entry.normal()
-    check.active()
-    button.active()
+    entry.config(state='normal')
+    check.config(state='normal')
+    button.config(state='normal')
     textbox.config(state='normal')
     textbox.insert('end','====================\n\n')
     textbox.config(state='disabled')
@@ -67,7 +77,7 @@ def __checkupdate(pkgs):
     #接受pip_install.py的更新检测回调
     global check_show_pkgs
     check_show_pkgs=pkgs
-    ui.event_generate('<<CheckEnd>>')
+    page.event_generate('<<CheckEnd>>')
 def checkupdate(_book):
     #检测所有可更新项目
     #在新临时标签页中展示，但是用户不可关闭
@@ -84,7 +94,7 @@ def checkupdate(_book):
         ui.delete('all')
         ui.add_paragraph((5,5),text='检测更新中……')
         ui.add_waitbar3((5,30),width=750)[-1]
-    ui.bind('<<CheckEnd>>',__checkshow)
+    page.bind('<<CheckEnd>>',__checkshow)
     book.showpage(update_page_id)
     pipmode.check_update(__checkupdate)
 def __checkshow(e):
