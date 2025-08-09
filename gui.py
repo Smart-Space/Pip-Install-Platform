@@ -7,13 +7,23 @@ from tkinter import Tk
 from tkinter import ttk
 
 from lib.gui import gui_list, gui_install, gui_uninstall, gui_search
+from lib.operate.pip_threads import pipthreads
 
+
+def _quit():
+    """
+    退出程序
+    """
+    pipthreads.shutdown()
+    root.quit()
+    root.destroy()
 
 # 创建主窗口
 root = Tk()
 root.title("Pip Integration Platform")
 root.minsize(1000, 600)
 root.iconbitmap("logo.ico")
+root.protocol("WM_DELETE_WINDOW", _quit)
 
 # 计算居中的位置
 screen_width = root.winfo_screenwidth()

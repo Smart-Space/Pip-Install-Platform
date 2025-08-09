@@ -8,6 +8,7 @@ import pipmode
 
 selected = None
 name = None
+name2 = None
 
 def initialize(frame:ttk.Frame):
     global page, entry, listbox, depbutton, delbutton, clbutton, listbox2, nodepbutton
@@ -16,9 +17,10 @@ def initialize(frame:ttk.Frame):
     leftframe.pack(side="left",fill="both",expand=True)
     ltopframe = ttk.Frame(leftframe)
     ltopframe.pack(side="top",pady=5)
+    ttk.Label(ltopframe,text="第三方库名：").pack(side="left",padx=5)
     entry = ttk.Entry(ltopframe,width=30)
     entry.pack(side="left",padx=5)
-    depbutton = ttk.Button(ltopframe,text="依赖分析",command=search_dependencies)
+    depbutton = ttk.Button(ltopframe,text="分析",command=search_dependencies)
     depbutton.pack(side="left",padx=5)
     delbutton = ttk.Button(ltopframe,text="删除选中",command=delete_item)
     delbutton.pack(side="left",padx=5)
@@ -42,7 +44,16 @@ def initialize(frame:ttk.Frame):
     scroller2 = ttk.Scrollbar(rightframe,orient="vertical",command=listbox2.yview)
     scroller2.pack(side="right",fill="y")
     listbox2.configure(yscrollcommand=scroller2.set)
+    listbox2.bind("<<TreeviewSelect>>",on_select2)
+    listbox2.bind("<Double-Button-1>",put_in_entry2)
     listbox2.bind("<<SearchTopPackagesMsg>>", _show_top_packages)
+
+def entry_input_focus(string):
+    entry.delete(0,"end")
+    entry.insert(0,string)
+    entry.icursor("end")
+    entry.select_range(0,"end")
+    entry.focus_set()
 
 def on_select(e):
     global selected
@@ -58,10 +69,7 @@ def put_in_entry(e):
     name = listbox.item(selected,"text")
     if not name or name in require_string:
         return
-    entry.delete(0,"end")
-    entry.insert(0,name)
-    entry.icursor("end")
-    entry.select_range(0,"end")
+    entry_input_focus(name)
 
 def search_dependencies(_name=None):
     global name
@@ -114,6 +122,18 @@ def _search_msg(e):
 def list_no_dep():
     nodepbutton.config(state="disabled")
     pipmode.search_top_packages(show_top_packages)
+
+def on_select2(e):
+    global name2
+    selected = listbox2.selection()
+    if not selected:
+        return
+    name2 = listbox2.item(selected[0],"text")
+
+def put_in_entry2(e):
+    if not name2:
+        return
+    entry_input_focus(name2)
 
 def show_top_packages(pkgs):
     global top_pkgs
