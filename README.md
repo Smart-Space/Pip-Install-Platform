@@ -1,5 +1,7 @@
 # Pip Integration Platform
 
+<img src="logo.png" height="300"></img>
+
 使用python和tkinter（sv-ttk）编写的pip图形化管理器。
 
 Pip Integration Platform（PIP）。
@@ -20,24 +22,30 @@ Pip Integration Platform（PIP）。
 ## 使用
 
 ### 首页（库列表）
+<img height="500" alt="image" src="https://github.com/user-attachments/assets/cab51603-cecb-4e64-bd6b-c8cd889ed55b" />
+
 
 该页面显示所有已安装的第三方库，展示版本和简介信息。
 
 通过下方的工具栏按钮，可以打开第三方库的文件位置（双击对应库有同样效果）和主页、卸载库、分析选定库的依赖关系。此外，可刷新本列表，以及获取所有可用更新。
 
 ### 升级&安装
+<img height="500" alt="image" src="https://github.com/user-attachments/assets/ba529e96-7c73-4bcf-818f-ac4806d0a248" />
 
 此页面中，可以直接输入库名进行安装或选择更新。
 
 ### 卸载
+<img height="500" alt="image" src="https://github.com/user-attachments/assets/312ffba4-abe7-48e8-8767-e11fd7484918" />
 
 此页面中，可直接输入库名进行卸载，也可以从首页选择第三方库进行卸载。
 
 ### 检查更新
+<img height="500" alt="image" src="https://github.com/user-attachments/assets/1bb4e2de-4009-48fc-bf96-57eb5f121afe" />
 
 本页面提供检测所有可更新的第三方库列表，也可以从首页点击检查全部更新获取。选择可更新的库进行更新，将在**升级&安装**界面升级该库。
 
 ### 依赖分析
+<img height="500" alt="image" src="https://github.com/user-attachments/assets/4006b636-40f2-471e-b5c8-7069a82aa085" />
 
 此页面中，可直接输入第三方库分析其依赖项目和依赖该库的其它第三方库，也可通过首页点击分析依赖使用该功能。双击列表中的任何一个库名，将会填充到输入框。既可以选择删除当前选中项所在的分析模块，也可以清空列表。
 
