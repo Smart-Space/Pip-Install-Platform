@@ -13,6 +13,8 @@ from lib.gui import gui_list, gui_install, gui_uninstall, gui_search
 root = Tk()
 root.title("Pip Integration Platform")
 root.minsize(1000, 600)
+root.iconbitmap("logo.ico")
+
 # 计算居中的位置
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
@@ -28,6 +30,7 @@ p1.pack(fill='both', expand=True)
 book.add(p1, text="库列表")
 gui_list.initialize(p1)
 p1.bind("<<UninstallEvent>>", lambda e: book.select(p3))
+p1.bind("<<CheckDependencyEvent>>", lambda e: book.select(p5))
 p1.bind("<<CheckUpdateEvent>>", lambda e: (book.select(p4), gui_install.checkupdate()))
 
 p2=ttk.Frame(book)
@@ -45,6 +48,11 @@ p4.pack(fill='both', expand=True)
 book.add(p4, text="检查更新")
 gui_install.checkupdate_initialize(p4)
 p4.bind("<<DoUpdate>>", lambda e: book.select(p2))
+
+p5=ttk.Frame(book)
+p5.pack(fill='both', expand=True)
+book.add(p5, text="依赖分析")
+gui_search.initialize(p5)
 
 if __name__=="__main__":
     root.mainloop()

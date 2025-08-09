@@ -8,6 +8,7 @@ import webbrowser
 import os
 
 from lib.gui.gui_uninstall import uninstall
+from lib.gui.gui_search import search_dependencies
 import pipmode
 
 nowlib=None#当前选定的库名称
@@ -33,6 +34,7 @@ def initialize(frame:ttk.Frame):#初始化
     ttk.Button(bottomframe,text='打开文件位置',command=opendoc).pack(side='left',padx=5)
     ttk.Button(bottomframe,text='打开项目页面',command=pypidoc).pack(side='left',padx=5)
     ttk.Button(bottomframe,text='卸载',command=__uninstall).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text='分析依赖',command=__check_dependency).pack(side='left',padx=5)
     ttk.Separator(bottomframe,orient='vertical').pack(side='left',fill='y',padx=5)
     ttk.Button(bottomframe,text='重新检索',command=start).pack(side='left',padx=5)
     ttk.Button(bottomframe,text='检查全部可更新项目',command=__check_update).pack(side='left',padx=5)
@@ -105,6 +107,12 @@ def __uninstall():#卸载选中项目
     listbox.delete(selected)
     nowlib=None
     selected=None
+
+def __check_dependency():#分析选中项目的依赖
+    if nowlib==None:
+        return
+    page.event_generate('<<CheckDependencyEvent>>')
+    search_dependencies(nowlib)
 
 def __check_update():#检查全部可更新项目
     page.event_generate('<<CheckUpdateEvent>>')
