@@ -22,8 +22,7 @@ Pip Integration Platform（PIP）。
 ## 使用
 
 ### 首页（库列表）
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/cab51603-cecb-4e64-bd6b-c8cd889ed55b" />
-
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/c414f9f0-bbff-4577-b90e-84a479532088" />
 
 该页面显示所有已安装的第三方库，展示版本和简介信息。
 
