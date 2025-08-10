@@ -37,7 +37,7 @@ def initialize(frame:ttk.Frame):#初始化
     ttk.Button(bottomframe,text='分析依赖',command=__check_dependency).pack(side='left',padx=5)
     ttk.Separator(bottomframe,orient='vertical').pack(side='left',fill='y',padx=5)
     ttk.Button(bottomframe,text='重新检索',command=start).pack(side='left',padx=5)
-    ttk.Button(bottomframe,text='检查全部可更新项目',command=__check_update).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text='检查全部可更新项目',style='Accent.TButton',command=__check_update).pack(side='left',padx=5)
     bottomframe.pack(side='bottom',anchor='n',pady=5)
     listbox.bind('<<TreeviewSelect>>',sel_libs)#绑定选中事件
     listbox.bind('<Double-Button-1>',opendoc)#绑定双击事件
@@ -95,6 +95,16 @@ def pypidoc():#打开主页(Home-page)
     if nowlib==None:#未选定
         return
     url=metadata.metadata(nowlib).get('Home-page', None)
+    if not url:
+        urls:list[str]=metadata.metadata(nowlib).get_all('Project-URL')
+        if not urls:
+            return
+        for i in urls:
+            i=i.lower()
+            if i.startswith('home') or i.startswith('doc')\
+                or i.startswith('source') or i.startswith('git') or i.startswith('repo'):
+                url=i.split(',',1)[1].strip()
+                break
     if url:
         webbrowser.open(url)
 
