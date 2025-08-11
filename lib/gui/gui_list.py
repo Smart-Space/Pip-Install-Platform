@@ -6,6 +6,7 @@ from tkinter import ttk
 from importlib import metadata
 import webbrowser
 import os
+import sys
 
 from lib.gui.gui_uninstall import uninstall
 from lib.gui.gui_search import search_dependencies
@@ -68,6 +69,15 @@ def sel_libs(e):#选定库
     selected=selected[0]
     nowlib=listbox.item(selected)['values'][0]
 
+def startfile(path):
+    platform = sys.platform
+    if platform.startswith('win'):
+        os.system(f'explorer /select,"{path}"')
+    elif platform.startswith('linux'):
+        directory = os.path.dirname(path)
+        os.system(f'xdg-open "{directory}"')
+    elif platform.startswith('darwin'):
+        os.system(f'open -R "{path}"')
 def opendoc(e=None):#打开库在资源管理器中的位置
     if not nowlib:#未选定
         return
@@ -85,11 +95,11 @@ def opendoc(e=None):#打开库在资源管理器中的位置
                 break
     if path:
         namepath=meta.locate_file('').__str__()+'\\'+path
-    else:
-        namepath=meta.locate_file('').__str__()+'\\'+nowlib+'.py'
-    if not os.path.exists(namepath):
-        return
-    os.startfile(namepath)
+        if not os.path.exists(namepath):
+            namepath+='.py'
+            startfile(namepath)# 单文件
+        else:
+            os.startfile(namepath)
 
 def pypidoc():#打开主页(Home-page)
     if nowlib==None:#未选定
