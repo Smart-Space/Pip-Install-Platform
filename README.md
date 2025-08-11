@@ -49,7 +49,7 @@ Pip Integration Platform（PIP）。
 本页面提供检测所有可更新的第三方库列表，也可以从首页点击检查全部更新获取。选择可更新的库进行更新（双击库名有同样效果），将在**升级&安装**界面升级该库。
 
 ### 依赖分析
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/4006b636-40f2-471e-b5c8-7069a82aa085" />
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/64e3d85b-0297-424f-9d16-8abbcb63f6b8" />
 
 此页面中，可直接输入第三方库分析其依赖项目和依赖该库的其它第三方库，也可通过首页点击分析依赖使用该功能。
 
