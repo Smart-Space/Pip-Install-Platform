@@ -18,6 +18,7 @@ def initialize(frame:ttk.Frame):
     ttk.Label(topframe,text='第三方库名：').pack(side='left',padx=5)
     entry=ttk.Entry(topframe,width=30)
     entry.pack(side='left',padx=5)
+    entry.bind('<Return>',lambda e:install())
     check=ttk.Checkbutton(topframe,text='升级',variable=update)
     check.pack(side='left',padx=5)
     button=ttk.Button(topframe,text='安装',command=install)
@@ -73,7 +74,7 @@ def checkupdate_initialize(frame:ttk.Frame):
     page2=frame
     topframe=ttk.Frame(frame)
     topframe.pack(anchor='n',pady=5)
-    ttk.Button(topframe,text='更新选中的库',command=update_selected).pack(side='left',padx=5)
+    ttk.Button(topframe,text='更新选中的库',command=update_selected_item).pack(side='left',padx=5)
     ttk.Separator(topframe,orient='vertical').pack(side='left',padx=5,fill='y')
     upbutton=ttk.Button(topframe,text='检测更新',command=checkupdate)
     upbutton.pack(side='left',padx=5)
@@ -90,7 +91,8 @@ def checkupdate_initialize(frame:ttk.Frame):
     scroller=ttk.Scrollbar(listframe,orient='vertical',command=listbox.yview)
     scroller.pack(side='right',fill='y')
     listbox['yscrollcommand']=scroller.set
-    listbox.bind('<<TreeviewSelect>>',_select)
+    listbox.bind('<<TreeviewSelect>>', _select)
+    listbox.bind('<Double-Button-1>', lambda e: update_selected_item())
     page2.bind("<<CheckEnd>>", __checkshow)
 
 def _select(e):
@@ -102,7 +104,7 @@ def _select(e):
     update_selected=update_selected[0]
     update_name=listbox.item(update_selected)['values'][0]
 
-def update_selected():
+def update_selected_item():
     #升级选中的库
     global update_name, update_selected
     if not update_name:

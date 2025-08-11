@@ -20,6 +20,7 @@ def initialize(frame:ttk.Frame):
     ttk.Label(ltopframe,text="第三方库名：").pack(side="left",padx=5)
     entry = ttk.Entry(ltopframe,width=30)
     entry.pack(side="left",padx=5)
+    entry.bind("<Return>",lambda e:search_dependencies())
     depbutton = ttk.Button(ltopframe,text="分析",command=search_dependencies)
     depbutton.pack(side="left",padx=5)
     delbutton = ttk.Button(ltopframe,text="删除选中",command=delete_item)
@@ -70,6 +71,7 @@ def put_in_entry(e):
     if not name or name in require_string:
         return
     entry_input_focus(name)
+    search_dependencies(name)
 
 def search_dependencies(_name=None):
     global name
@@ -110,14 +112,19 @@ def _search_msg(e):
     depbutton.config(state="normal")
     delbutton.config(state="normal")
     clbutton.config(state="normal")
-    root=listbox.insert("",'end',text=name,open=True)
+    if not selected or listbox.item(selected,"text") != name:
+        root = listbox.insert("",'end',text=name,open=True)
+    else:
+        root = selected
+        listbox.item(root,open=True)
     reqnode=listbox.insert(root,'end',text="依赖项",open=True)
     for item in dependencymsg[0]:
         listbox.insert(reqnode,'end',text=item.strip())
     reqednode=listbox.insert(root,'end',text="被依赖项",open=True)
     for item in dependencymsg[1]:
         listbox.insert(reqednode,'end',text=item.strip())
-    listbox.yview_moveto(1)
+    if root != selected:
+        listbox.yview_moveto(1)
 
 def list_no_dep():
     nodepbutton.config(state="disabled")

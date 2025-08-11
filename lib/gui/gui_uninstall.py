@@ -12,6 +12,7 @@ def initialize(frame:ttk.Frame):#初始化
     ttk.Label(topframe,text='要卸载的库：').pack(side='left',padx=5)
     entry=ttk.Entry(topframe,width=30)
     entry.pack(side='left',padx=5)
+    entry.bind('<Return>',lambda e:uninstall())
     button=ttk.Button(topframe,text='开始卸载',command=uninstall)
     button.pack(side='left',padx=5)
     textframe=ttk.Frame(frame)

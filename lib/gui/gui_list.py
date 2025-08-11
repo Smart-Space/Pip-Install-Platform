@@ -94,9 +94,10 @@ def opendoc(e=None):#打开库在资源管理器中的位置
 def pypidoc():#打开主页(Home-page)
     if nowlib==None:#未选定
         return
-    url=metadata.metadata(nowlib).get('Home-page', None)
+    meta=metadata.metadata(nowlib)
+    url=meta.get('Home-page', None)
     if not url:
-        urls:list[str]=metadata.metadata(nowlib).get_all('Project-URL')
+        urls:list[str]=meta.get_all('Project-URL')
         if not urls:
             return
         for i in urls:
