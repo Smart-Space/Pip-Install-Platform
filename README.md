@@ -60,6 +60,7 @@ Pip Integration Platform（PIP）。
 输入框内回车执行依赖分析。
 
 ### 设置
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/cc10c41b-fa13-4dca-bf63-2a8df69014c3" />
 
 此页面中，可以设置应用语言和外观。**所有设置在重启软件后生效**。
 
