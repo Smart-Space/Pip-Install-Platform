@@ -5,6 +5,7 @@
 from tkinter import ttk, Text, BooleanVar
 
 import pipmode
+from i18n import _
 
 update=None#是否升级，用于调整pip参数
 
@@ -15,13 +16,13 @@ def initialize(frame:ttk.Frame):
     page=frame
     topframe=ttk.Frame(frame)
     topframe.pack(anchor='n',pady=5)
-    ttk.Label(topframe,text='第三方库名：').pack(side='left',padx=5)
+    ttk.Label(topframe,text=_('第三方库名：')).pack(side='left',padx=5)
     entry=ttk.Entry(topframe,width=30)
     entry.pack(side='left',padx=5)
     entry.bind('<Return>',lambda e:install())
-    check=ttk.Checkbutton(topframe,text='升级',variable=update)
+    check=ttk.Checkbutton(topframe,text=_('升级'),variable=update)
     check.pack(side='left',padx=5)
-    button=ttk.Button(topframe,text='安装',command=install)
+    button=ttk.Button(topframe,text=_('安装'),command=install)
     button.pack(side='left',padx=5)
     textframe=ttk.Frame(frame)
     textframe.pack(fill='both',expand=True)
@@ -74,16 +75,16 @@ def checkupdate_initialize(frame:ttk.Frame):
     page2=frame
     topframe=ttk.Frame(frame)
     topframe.pack(anchor='n',pady=5)
-    ttk.Button(topframe,text='更新选中的库',command=update_selected_item).pack(side='left',padx=5)
+    ttk.Button(topframe,text=_('更新选中的库'),command=update_selected_item).pack(side='left',padx=5)
     ttk.Separator(topframe,orient='vertical').pack(side='left',padx=5,fill='y')
-    upbutton=ttk.Button(topframe,text='检测更新',command=checkupdate)
+    upbutton=ttk.Button(topframe,text=_('检测更新'),command=checkupdate)
     upbutton.pack(side='left',padx=5)
     listframe=ttk.Frame(frame)
     listframe.pack(fill='both',expand=True)
     listbox=ttk.Treeview(listframe,columns=('name','version','update'),show='headings',selectmode='browse')
-    listbox.heading('name',text='名称')
-    listbox.heading('version',text='版本')
-    listbox.heading('update',text='更新')
+    listbox.heading('name',text=_('名称'))
+    listbox.heading('version',text=_('版本'))
+    listbox.heading('update',text=_('更新'))
     listbox.column('name',anchor='center')
     listbox.column('version',anchor='center')
     listbox.column('update',anchor='center')
@@ -125,11 +126,11 @@ def __checkupdate(pkgs):
     page2.event_generate('<<CheckEnd>>')
 def checkupdate():
     #检测所有可更新项目
-    upbutton.config(text='检测中...',state='disabled')
+    upbutton.config(text=_('检测中...'),state='disabled')
     pipmode.check_update(__checkupdate)
 def __checkshow(e):
     #显示检测更新的结果
-    upbutton.config(text='检测更新',state='normal')
+    upbutton.config(text=_('检测更新'),state='normal')
     listbox.delete(*listbox.get_children())
     for pkg in check_show_pkgs:
         listbox.insert('','end',values=(pkg['name'],pkg['version'],pkg['latest_version']))

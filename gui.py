@@ -6,8 +6,11 @@
 from tkinter import Tk
 from tkinter import ttk
 
-from lib.gui import gui_list, gui_install, gui_uninstall, gui_search
+from lib.gui import gui_list, gui_install, gui_uninstall, gui_search, gui_setting
 from lib.operate.pip_threads import pipthreads
+from i18n import _, set_language
+from lib.operate import setting
+set_language(setting.get_lang())
 
 
 def _quit():
@@ -37,7 +40,7 @@ book.pack(fill='both', expand=True)
 
 p1=ttk.Frame(book)
 p1.pack(fill='both', expand=True)
-book.add(p1, text="库列表")
+book.add(p1, text=_("库列表"))
 gui_list.initialize(p1)
 p1.bind("<<UninstallEvent>>", lambda e: book.select(p3))
 p1.bind("<<CheckDependencyEvent>>", lambda e: book.select(p5))
@@ -45,24 +48,29 @@ p1.bind("<<CheckUpdateEvent>>", lambda e: (book.select(p4), gui_install.checkupd
 
 p2=ttk.Frame(book)
 p2.pack(fill='both', expand=True)
-book.add(p2, text="升级&安装")
+book.add(p2, text=_("升级&安装"))
 gui_install.initialize(p2)
 
 p3=ttk.Frame(book)
 p3.pack(fill='both', expand=True)
-book.add(p3, text="卸载")
+book.add(p3, text=_("卸载"))
 gui_uninstall.initialize(p3)
 
 p4=ttk.Frame(book)
 p4.pack(fill='both', expand=True)
-book.add(p4, text="检查更新")
+book.add(p4, text=_("检查更新"))
 gui_install.checkupdate_initialize(p4)
 p4.bind("<<DoUpdate>>", lambda e: book.select(p2))
 
 p5=ttk.Frame(book)
 p5.pack(fill='both', expand=True)
-book.add(p5, text="依赖分析")
+book.add(p5, text=_("依赖分析"))
 gui_search.initialize(p5)
+
+p6=ttk.Frame(book)
+p6.pack(fill='both', expand=True)
+book.add(p6, text=_("设置"))
+gui_setting.initialize(p6)
 
 if __name__=="__main__":
     root.mainloop()

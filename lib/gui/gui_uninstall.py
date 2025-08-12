@@ -4,16 +4,17 @@
 """
 from tkinter import ttk, Text
 import pipmode
+from i18n import _
 
 def initialize(frame:ttk.Frame):#初始化
     global entry, textbox, button
     topframe=ttk.Frame(frame)
     topframe.pack(anchor='n',pady=5)
-    ttk.Label(topframe,text='要卸载的库：').pack(side='left',padx=5)
+    ttk.Label(topframe,text=_('要卸载的库：')).pack(side='left',padx=5)
     entry=ttk.Entry(topframe,width=30)
     entry.pack(side='left',padx=5)
     entry.bind('<Return>',lambda e:uninstall())
-    button=ttk.Button(topframe,text='开始卸载',command=uninstall)
+    button=ttk.Button(topframe,text=_('开始卸载'),command=uninstall)
     button.pack(side='left',padx=5)
     textframe=ttk.Frame(frame)
     textframe.pack(fill='both',expand=True)

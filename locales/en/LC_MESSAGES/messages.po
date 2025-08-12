@@ -1,0 +1,124 @@
+# Chinese translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Pip Integration Platform\n"
+"Report-Msgid-Bugs-To: smart-space@qq.com\n"
+"POT-Creation-Date: 2025-8-11 0:00+0800\n"
+"PO-Revision-Date: 2025-8-11 0:00+0800\n"
+"Last-Translator: Smart-Space <smart-space@qq.com>\n"
+"Language: en\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "库列表"
+msgstr "Packages"
+
+msgid "名称"
+msgstr "Name"
+
+msgid "版本"
+msgstr "Version"
+
+msgid "描述"
+msgstr "Description"
+
+msgid "打开文件位置"
+msgstr "File/Path"
+
+msgid "打开项目页面"
+msgstr "Website"
+
+msgid "卸载"
+msgstr "Uninstall"
+
+msgid "分析依赖"
+msgstr "Dependency"
+
+msgid "重新检索"
+msgstr "Refresh"
+
+msgid "检查全部可更新项目"
+msgstr "Check all updates"
+
+msgid "升级&安装"
+msgstr "Install"
+
+msgid "第三方库名："
+msgstr "Package Name: "
+
+msgid "升级"
+msgstr "Upgrade"
+
+msgid "安装"
+msgstr "Install"
+
+msgid "更新选中的库"
+msgstr "Upgrade Package"
+
+msgid "检测更新"
+msgstr "Check Update"
+
+msgid "检查更新"
+msgstr "Update"
+
+msgid "更新"
+msgstr "Upgrade"
+
+msgid "检测中..."
+msgstr "Checking..."
+
+msgid "卸载"
+msgstr "Uninstall"
+
+msgid "要卸载的库："
+msgstr "Package Name: "
+
+msgid "开始卸载"
+msgstr "Uninstall"
+
+msgid "依赖分析"
+msgstr "Dependency"
+
+msgid "分析"
+msgstr "Analyze"
+
+msgid "删除选中"
+msgstr "Close"
+
+msgid "清空"
+msgstr "Clear"
+
+msgid "列出所有顶层库"
+msgstr "Top-Level Packages"
+
+msgid "依赖项"
+msgstr "Requires"
+
+msgid "被依赖项"
+msgstr "Required-By"
+
+msgid "设置"
+msgstr "Setting"
+
+msgid "修改后重启生效"
+msgstr "Restart to take effect"
+
+msgid "语言"
+msgstr "Language"
+
+msgid "当前环境："
+msgstr "Current Environment: "
+
+msgid "外观"
+msgstr "Appearance"
+
+msgid "明亮"
+msgstr "Light"
+
+msgid "暗黑"
+msgstr "Dark"

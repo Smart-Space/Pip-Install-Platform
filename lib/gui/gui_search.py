@@ -4,6 +4,7 @@
 """
 from tkinter import ttk
 import pipmode
+from i18n import _
 
 
 selected = None
@@ -17,15 +18,15 @@ def initialize(frame:ttk.Frame):
     leftframe.pack(side="left",fill="both",expand=True)
     ltopframe = ttk.Frame(leftframe)
     ltopframe.pack(side="top",pady=5)
-    ttk.Label(ltopframe,text="第三方库名：").pack(side="left",padx=5)
+    ttk.Label(ltopframe,text=_("第三方库名：")).pack(side="left",padx=5)
     entry = ttk.Entry(ltopframe,width=30)
     entry.pack(side="left",padx=5)
     entry.bind("<Return>",lambda e:search_dependencies())
-    depbutton = ttk.Button(ltopframe,text="分析",command=search_dependencies)
+    depbutton = ttk.Button(ltopframe,text=_("分析"),command=search_dependencies)
     depbutton.pack(side="left",padx=5)
-    delbutton = ttk.Button(ltopframe,text="删除选中",command=delete_item)
+    delbutton = ttk.Button(ltopframe,text=_("删除选中"),command=delete_item)
     delbutton.pack(side="left",padx=5)
-    clbutton = ttk.Button(ltopframe,text="清空",command=clear_list)
+    clbutton = ttk.Button(ltopframe,text=_("清空"),command=clear_list)
     clbutton.pack(side="left",padx=5)
     listbox = ttk.Treeview(leftframe,selectmode="browse",show="tree")
     listbox.pack(side="left",fill="both",expand=True)
@@ -38,7 +39,7 @@ def initialize(frame:ttk.Frame):
     ttk.Separator(page,orient="vertical").pack(side="left",fill="y",padx=5)
     rightframe = ttk.Frame(page)
     rightframe.pack(side="right",fill="both")
-    nodepbutton = ttk.Button(rightframe,text="列出所有顶层库",command=list_no_dep)
+    nodepbutton = ttk.Button(rightframe,text=_("列出所有顶层库"),command=list_no_dep)
     nodepbutton.pack(side="top",pady=5)
     listbox2 = ttk.Treeview(rightframe,selectmode="browse",show="tree")
     listbox2.pack(side="left",fill="y",expand=True)
@@ -63,7 +64,7 @@ def on_select(e):
         return
     selected = selected[0]
 
-require_string=("依赖项","被依赖项")
+require_string=(_("依赖项"),_("被依赖项"))
 def put_in_entry(e):
     if not selected:
         return
@@ -117,10 +118,10 @@ def _search_msg(e):
     else:
         root = selected
         listbox.item(root,open=True)
-    reqnode=listbox.insert(root,'end',text="依赖项",open=True)
+    reqnode=listbox.insert(root,'end',text=_("依赖项"),open=True)
     for item in dependencymsg[0]:
         listbox.insert(reqnode,'end',text=item.strip())
-    reqednode=listbox.insert(root,'end',text="被依赖项",open=True)
+    reqednode=listbox.insert(root,'end',text=_("被依赖项"),open=True)
     for item in dependencymsg[1]:
         listbox.insert(reqednode,'end',text=item.strip())
     if root != selected:

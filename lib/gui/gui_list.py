@@ -11,6 +11,7 @@ import sys
 from lib.gui.gui_uninstall import uninstall
 from lib.gui.gui_search import search_dependencies
 import pipmode
+from i18n import _
 
 nowlib=None#当前选定的库名称
 selected=None#当前选定的库
@@ -20,9 +21,9 @@ def initialize(frame:ttk.Frame):#初始化
     page=frame
     topframe=ttk.Frame(frame)
     listbox=ttk.Treeview(topframe,columns=('name','version','description'),show='headings',selectmode='browse')
-    listbox.heading('name',text='名称')
-    listbox.heading('version',text='版本')
-    listbox.heading('description',text='描述')
+    listbox.heading('name',text=_('名称'))
+    listbox.heading('version',text=_('版本'))
+    listbox.heading('description',text=_('描述'))
     listbox.column('name',width=200,anchor='center')
     listbox.column('version',width=100,anchor='center')
     listbox.column('description',width=450,anchor='center')
@@ -32,13 +33,13 @@ def initialize(frame:ttk.Frame):#初始化
     scroller.pack(side='right',fill='y')
     topframe.pack(side='top',fill='both',expand=True)
     bottomframe=ttk.Frame(frame)
-    ttk.Button(bottomframe,text='打开文件位置',command=opendoc).pack(side='left',padx=5)
-    ttk.Button(bottomframe,text='打开项目页面',command=pypidoc).pack(side='left',padx=5)
-    ttk.Button(bottomframe,text='卸载',command=__uninstall).pack(side='left',padx=5)
-    ttk.Button(bottomframe,text='分析依赖',command=__check_dependency).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text=_('打开文件位置'),command=opendoc).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text=_('打开项目页面'),command=pypidoc).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text=_('卸载'),command=__uninstall).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text=_('分析依赖'),command=__check_dependency).pack(side='left',padx=5)
     ttk.Separator(bottomframe,orient='vertical').pack(side='left',fill='y',padx=5)
-    ttk.Button(bottomframe,text='重新检索',command=start).pack(side='left',padx=5)
-    ttk.Button(bottomframe,text='检查全部可更新项目',style='Accent.TButton',command=__check_update).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text=_('重新检索'),command=start).pack(side='left',padx=5)
+    ttk.Button(bottomframe,text=_('检查全部可更新项目'),style='Accent.TButton',command=__check_update).pack(side='left',padx=5)
     bottomframe.pack(side='bottom',anchor='n',pady=5)
     listbox.bind('<<TreeviewSelect>>',sel_libs)#绑定选中事件
     listbox.bind('<Double-Button-1>',opendoc)#绑定双击事件

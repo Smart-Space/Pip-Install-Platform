@@ -1,5 +1,5 @@
 """
-/pipmode.py
+./pipmode.py
 负责总调控与pip相关的功能
 """
 from lib.operate import pip_list, pip_install, pip_uninstall, pip_search
