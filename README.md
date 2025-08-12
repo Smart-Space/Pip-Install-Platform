@@ -1,5 +1,7 @@
 # Pip Integration Platform
 
+[English version](README_en.md)
+
 <img src="logo.png" height="300"></img>
 
 使用python和tkinter（sv-ttk）编写的pip图形化管理器。
