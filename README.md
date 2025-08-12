@@ -1,5 +1,7 @@
 # Pip Integration Platform
 
+[English version](README_en.md)
+
 <img src="logo.png" height="300"></img>
 
 使用python和tkinter（sv-ttk）编写的pip图形化管理器。
@@ -14,6 +16,7 @@ Pip Integration Platform（PIP）。
 - 便捷升级和安装指定库；
 - 一键检测所有可升级库，并可选择第三方库进行升级；
 - 分析第三方库的依赖项目和被依赖情况，一键显示所有顶层库（未被依赖的第三方库）；
+- 界面现代化，操作便捷
 - ……
 
 ## 运行
@@ -60,6 +63,7 @@ Pip Integration Platform（PIP）。
 输入框内回车执行依赖分析。
 
 ### 设置
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/cc10c41b-fa13-4dca-bf63-2a8df69014c3" />
 
 此页面中，可以设置应用语言和外观。**所有设置在重启软件后生效**。
 
