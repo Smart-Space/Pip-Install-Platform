@@ -15,7 +15,7 @@ def initialize(frame:ttk.Frame):
     if setting.get_theme() == 1:
         photo = PhotoImage(file='./logoS.png')
     elif setting.get_theme() == 2:
-        photo = PhotoImage(file='./logoDarkS.png')
+        photo = PhotoImage(file='./LogoDarkS.png')
     naviframe = ttk.Frame(frame)
     naviframe.pack(side='left', fill='y')
     label = ttk.Label(naviframe, image=photo)
