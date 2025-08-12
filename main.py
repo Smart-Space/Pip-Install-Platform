@@ -27,5 +27,6 @@ style.configure("TLabel", font=('微软雅黑',12))
 style.configure("TEntry", font=('微软雅黑',12))
 style.configure("Heading", font=('微软雅黑',12))
 style.configure("TCheckbutton", font=('微软雅黑',12))
+style.configure("TRadiobutton", font=('微软雅黑',12))
 
 root.mainloop()
