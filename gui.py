@@ -71,6 +71,3 @@ p6=ttk.Frame(book)
 p6.pack(fill='both', expand=True)
 book.add(p6, text=_("设置"))
 gui_setting.initialize(p6)
-
-if __name__=="__main__":
-    root.mainloop()
