@@ -102,7 +102,9 @@ def delete_item():
     selected = None
 
 def clear_list():
+    global selected
     listbox.delete(*listbox.get_children())
+    selected = None
 
 def search_msg(_dependencymsg):
     global dependencymsg

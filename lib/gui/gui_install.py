@@ -130,7 +130,10 @@ def checkupdate():
     pipmode.check_update(__checkupdate)
 def __checkshow(e):
     #显示检测更新的结果
+    global update_selected, update_name
     upbutton.config(text=_('检测更新'),state='normal')
     listbox.delete(*listbox.get_children())
+    update_selected = None
+    update_name = None
     for pkg in check_show_pkgs:
         listbox.insert('','end',values=(pkg['name'],pkg['version'],pkg['latest_version']))

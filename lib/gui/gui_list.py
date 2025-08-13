@@ -47,6 +47,9 @@ def initialize(frame:ttk.Frame):#初始化
     start()#启动子线程
 
 def start():#接受main.py调控，运行启动
+    global selected, nowlib
+    selected=None
+    nowlib=None
     pipmode.get_list(initial_list)
 
 def initial_list(_pkgs:list):#从/lib/operate/pip_list.py子线程回调函数

@@ -9,6 +9,9 @@ Licensed: MIT
 """
 import sv_ttk
 from tkinter import ttk
+import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 from gui import root
 from lib.operate import setting
 from pipmode import *
