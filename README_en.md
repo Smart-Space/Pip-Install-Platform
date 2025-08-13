@@ -24,33 +24,33 @@ After downloading this project, install `sv-ttk` using pip and run `main.py`. Wh
 ## Usage
 
 ### Home Page (Packages)
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/fa1bfb59-75a1-49c0-8d34-4938c38e959c" />
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/d621a341-2013-49e3-927a-5ea3131f7040" />
 
 This page displays all installed third-party libraries, showing their versions and brief introduction information.
 
 Through the toolbar buttons below, you can open the file location of third-party libraries (double-clicking the corresponding library has the same effect), the home page, uninstall libraries, and analyze the dependencies of selected libraries. In addition, you can refresh this list and obtain all available updates.
 
 ### Install
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/a94fb5ee-39d2-44de-9d2d-4e3591550623" />
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/7d97b91b-0256-4443-a07e-4f35c577d104" />
 
 On this page, you can directly enter the library name for installation or select from "Update" to upgrade.
 
 Press Enter in the input box to execute the installation.
 
 ### Uninstall
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/78e604ed-3a9b-4304-9599-2300226553a4" />
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/076b1153-2ce1-496d-a1f9-e59b6f3c41df" />
 
 On this page, you can directly enter the library name to uninstall it, or you can select a third-party library from the homepage to uninstall it.
 
 Press Enter in the input box to uninstall.
 
 ### Update
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/4c900288-4a62-4475-86d0-7241b0450bda" />
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/0c01e1a7-e7fa-47df-b9e1-da61cc739a2a" />
 
 This page provides a list of all updatable third-party libraries. You can also obtain it by clicking "Check all updates" on the homepage. Select the updatable library to update (double-clicking the library name has the same effect), and the library will be upgraded in the **Install** interface.
 
 ### Dependency
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/738195ca-2e23-4ec3-9774-89df2a58e74d" />
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/f9150f35-d4e1-48f1-bf54-847a3e6af098" />
 
 On this page, you can directly input third-party libraries to analyze their dependent items and other third-party libraries that depend on them. You can also use this function by clicking on "Dependency" on the homepage.
 
@@ -61,7 +61,7 @@ All the top-level third-party libraries, that is, the libraries that are not rel
 Press Enter in the input box to perform dependency analysis.
 
 ### Setting
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/54505c3d-3233-4c92-a197-38cfafc1acbb" />
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/098ae1e6-2694-4d33-a539-d56a2969ab5a" />
 
 On this page, you can set the application language and appearance. **All Settings will take effect after the software is restarted**.
 
