@@ -28,7 +28,9 @@ After downloading this project, install `sv-ttk` using pip and run `main.py`. Wh
 
 This page displays all installed third-party libraries, showing their versions and brief introduction information.
 
-Through the toolbar buttons below, you can open the file location of third-party libraries (double-clicking the corresponding library has the same effect), the home page, uninstall libraries, and analyze the dependencies of selected libraries. In addition, you can refresh this list and obtain all available updates.
+Through the toolbar buttons below, you can open the file location of third-party libraries (double-clicking the corresponding library has the same effect), the home page, uninstall libraries (You can press control to select multiple options), and analyze the dependencies of selected libraries. 
+
+In addition, you can refresh this list and obtain all available updates.
 
 ### Install
 <img width="800" alt="image" src="https://github.com/user-attachments/assets/7d97b91b-0256-4443-a07e-4f35c577d104" />
