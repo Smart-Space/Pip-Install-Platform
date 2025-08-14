@@ -14,13 +14,14 @@ import pipmode
 from i18n import _
 
 nowlib=None#当前选定的库名称
-selected=None#当前选定的库
+selected=None#当前选定的多个库
+nowlibs=[]#当前选定的多个库
 
 def initialize(frame:ttk.Frame):#初始化
     global listbox, page
     page=frame
     topframe=ttk.Frame(frame)
-    listbox=ttk.Treeview(topframe,columns=('name','version','description'),show='headings',selectmode='browse')
+    listbox=ttk.Treeview(topframe,columns=('name','version','description'),show='headings',selectmode='extended')
     listbox.heading('name',text=_('名称'))
     listbox.heading('version',text=_('版本'))
     listbox.heading('description',text=_('描述'))
@@ -50,6 +51,7 @@ def start():#接受main.py调控，运行启动
     global selected, nowlib
     selected=None
     nowlib=None
+    nowlibs.clear()
     pipmode.get_list(initial_list)
 
 def initial_list(_pkgs:list):#从/lib/operate/pip_list.py子线程回调函数
@@ -66,12 +68,14 @@ def load_ui(e):
 
 #以下为接受/gui.py调用方法
 def sel_libs(e):#选定库
-    global nowlib, selected
+    global nowlib, selected, nowlibs
     selected=listbox.selection()
     if not selected:
         return
-    selected=selected[0]
-    nowlib=listbox.item(selected)['values'][0]
+    nowlibs.clear()
+    for i in selected:
+        nowlibs.append(listbox.item(i)['values'][0])
+    nowlib=nowlibs[0]
 
 def startfile(path):
     platform = sys.platform
@@ -128,10 +132,11 @@ def __uninstall():#卸载选中项目
     if nowlib==None:
         return
     page.event_generate('<<UninstallEvent>>')
-    uninstall(nowlib)
-    listbox.delete(selected)
+    uninstall(' '.join(nowlibs))
+    listbox.delete(*selected)
     nowlib=None
     selected=None
+    nowlibs.clear()
 
 def __check_dependency():#分析选中项目的依赖
     if nowlib==None:
