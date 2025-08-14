@@ -49,7 +49,7 @@ Press Enter in the input box to uninstall.
 ### Update
 <img width="800" alt="image" src="https://github.com/user-attachments/assets/0c01e1a7-e7fa-47df-b9e1-da61cc739a2a" />
 
-This page provides a list of all updatable third-party libraries. You can also obtain it by clicking "Check all updates" on the homepage. Select the updatable library to update (double-clicking the library name has the same effect), and the library will be upgraded in the **Install** interface.
+This page provides a list of all updatable third-party libraries. You can also obtain it by clicking "Check all updates" on the homepage. Select the updatable library to update (double-clicking the library name has the same effect. You can press control to select multiple options), and the library will be upgraded in the **Install** interface.
 
 ### Dependency
 <img width="800" alt="image" src="https://github.com/user-attachments/assets/f9150f35-d4e1-48f1-bf54-847a3e6af098" />

@@ -68,7 +68,7 @@ def _end(e):#操作结束，按钮恢复
 
 
 update_selected=None#升级选中的库
-update_name=None#升级选中的库名
+update_name=[]#升级选中的库名
 def checkupdate_initialize(frame:ttk.Frame):
     #初始化升级检测页面
     global page2, upbutton, listbox
@@ -81,7 +81,7 @@ def checkupdate_initialize(frame:ttk.Frame):
     upbutton.pack(side='left',padx=5)
     listframe=ttk.Frame(frame)
     listframe.pack(fill='both',expand=True)
-    listbox=ttk.Treeview(listframe,columns=('name','version','update'),show='headings',selectmode='browse')
+    listbox=ttk.Treeview(listframe,columns=('name','version','update'),show='headings',selectmode='extended')
     listbox.heading('name',text=_('名称'))
     listbox.heading('version',text=_('版本'))
     listbox.heading('update',text=_('更新'))
@@ -102,8 +102,9 @@ def _select(e):
     update_selected=listbox.selection()
     if not update_selected:
         return
-    update_selected=update_selected[0]
-    update_name=listbox.item(update_selected)['values'][0]
+    update_name.clear()
+    for i in update_selected:
+        update_name.append(listbox.item(i)['values'][0])
 
 def update_selected_item():
     #升级选中的库
@@ -113,11 +114,11 @@ def update_selected_item():
     update.set(True)
     page2.event_generate('<<DoUpdate>>')
     entry.delete(0,'end')
-    entry.insert(0,update_name)
+    entry.insert(0,' '.join(update_name))
     install()
-    listbox.delete(update_selected)
+    listbox.delete(*update_selected)
     update_selected=None
-    update_name=None
+    update_name.clear()
 
 def __checkupdate(pkgs):
     #接受pip_install.py的更新检测回调
@@ -133,7 +134,7 @@ def __checkshow(e):
     global update_selected, update_name
     upbutton.config(text=_('检测更新'),state='normal')
     listbox.delete(*listbox.get_children())
-    update_selected = None
-    update_name = None
+    update_selected=None
+    update_name.clear()
     for pkg in check_show_pkgs:
         listbox.insert('','end',values=(pkg['name'],pkg['version'],pkg['latest_version']))

@@ -51,7 +51,7 @@ Pip Integration Platform（PIP）。
 ### 检查更新
 <img width="800" alt="image" src="https://github.com/user-attachments/assets/1bb4e2de-4009-48fc-bf96-57eb5f121afe" />
 
-本页面提供检测所有可更新的第三方库列表，也可以从首页点击检查全部更新获取。选择可更新的库进行更新（双击库名有同样效果），将在**升级&安装**界面升级该库。
+本页面提供检测所有可更新的第三方库列表，也可以从首页点击检查全部更新获取。选择可更新的库进行更新（双击库名有同样效果，可按下Control键多选），将在**升级&安装**界面升级该库。
 
 ### 依赖分析
 <img width="800" alt="image" src="https://github.com/user-attachments/assets/64e3d85b-0297-424f-9d16-8abbcb63f6b8" />
