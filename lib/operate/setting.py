@@ -2,8 +2,10 @@
 ./lib/operate/setting.py
 PIP的设置程序
 """
+import subprocess
 import os
 import json
+from sys import executable
 
 setting = {
     'lang': 'zh',
@@ -33,3 +35,7 @@ def get_theme():
 def set_theme(theme):
     setting['theme'] = theme
     save_setting()
+
+def clear_cache():
+    cmd = f'{executable} -m pip cache purge'
+    subprocess.Popen(cmd, shell=True)

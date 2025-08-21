@@ -51,9 +51,13 @@ def initialize(frame:ttk.Frame):
     theme_light_radio.pack(side='left', padx=10)
     theme_dark_radio = ttk.Radiobutton(theme_radio_frame, text=_("暗黑"), variable=theme_var, value=2, command=set_theme)
     theme_dark_radio.pack(side='left', padx=10)
+    ttk.Button(frame1, text=_("清除缓存"), command=clear_cache).grid(row=4, column=0, padx=10, pady=10)
 
 def set_language(lang_code):
     setting.set_lang(lang_code)
 
 def set_theme():
     setting.set_theme(theme_var.get())
+
+def clear_cache():
+    setting.clear_cache()

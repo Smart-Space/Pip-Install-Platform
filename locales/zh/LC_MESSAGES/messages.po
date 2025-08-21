@@ -122,3 +122,6 @@ msgstr "明亮"
 
 msgid "暗黑"
 msgstr "暗黑"
+
+msgid "清除缓存"
+msgstr "清除缓存"
